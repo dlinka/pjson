@@ -18,10 +18,8 @@ public class TreeUsage {
 
     private static void read(String json) throws IOException {
         JsonNode jsonNode = mapper.readTree(json);
-
         String name = jsonNode.path("name").asText();
         System.out.println(name);
-
         int age = jsonNode.path("age").asInt();
         System.out.println(age);
 
@@ -36,8 +34,8 @@ public class TreeUsage {
         if (friends.isArray()) {
             for (JsonNode friend : friends) {
                 String friendName = friend.path("name").asText();
-                int friendAge = friend.path("age").asInt();
                 System.out.println(friendName);
+                int friendAge = friend.path("age").asInt();
                 System.out.println(friendAge);
             }
         }

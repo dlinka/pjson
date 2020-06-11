@@ -3,6 +3,7 @@ package com.cr;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,15 +11,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Data
 public class User {
 
+    //设置序列化的json字段名
+    //设置反序列化的json字段名对应的属性
     @JsonProperty("name")
     private String username;
     private int age;
+    //序列化的时候忽略这个字段
+    //反序列化的时候忽略这个字段
     @JsonIgnore
     private LocalDate birthday;
     private Map<String, User> parents;
     private List<User> friends;
+    //如果字段为null,序列化的时候忽略
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private User leader;
 
@@ -28,65 +35,6 @@ public class User {
     public User(String username, int age) {
         this.username = username;
         this.age = age;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
-
-    public Map<String, User> getParents() {
-        return parents;
-    }
-
-    public void setParents(Map<String, User> parents) {
-        this.parents = parents;
-    }
-
-    public List<User> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(List<User> friends) {
-        this.friends = friends;
-    }
-
-    public User getLeader() {
-        return leader;
-    }
-
-    public void setLeader(User leader) {
-        this.leader = leader;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "username='" + username + '\'' +
-                ", age=" + age +
-                ", parents=" + parents +
-                ", friends=" + friends +
-                ", leader=" + leader +
-                '}';
     }
 
     public static User createUser(){
@@ -102,4 +50,17 @@ public class User {
         user.setFriends(friends);
         return user;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", age=" + age +
+                ", birthday=" + birthday +
+                ", parents=" + parents +
+                ", friends=" + friends +
+                ", leader=" + leader +
+                '}';
+    }
+
 }

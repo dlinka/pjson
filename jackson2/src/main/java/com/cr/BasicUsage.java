@@ -2,6 +2,7 @@ package com.cr;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -10,22 +11,25 @@ import java.util.*;
 public class BasicUsage {
 
     static ObjectMapper mapper = new ObjectMapper();
+
     static {
+        //忽略没有匹配的JSON字段
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        //序列化忽略null的字段
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
+
     public static void main(String[] args) throws IOException {
-        //Object转JSON
+        //Object和JSON互转
         User user = User.createUser();
         String json1 = mapper.writeValueAsString(user);
-        System.out.println(json1);
         String json2 = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(user);
+        System.out.println(json1);
         System.out.println(json2);
-
-        //JSON转Object
         User user1 = mapper.readValue(json1, User.class);
         System.out.println(user1);
-        User user2 = mapper.readValue(json2, User.class);
-        System.out.println(user2);
+
+        System.out.println("---");
 
         //List和JSON互转
         List<User> userList = new ArrayList<>();
@@ -35,8 +39,8 @@ public class BasicUsage {
         System.out.println(json3);
         userList = mapper.readValue(json3, new TypeReference<List<User>>() {});
         System.out.println(userList);
-        userList = Arrays.asList(mapper.readValue(json3, User[].class));
-        System.out.println(userList);
+
+        System.out.println("---");
 
         //Map和JSON互转
         Map<String, User> userMap = new HashMap<>();

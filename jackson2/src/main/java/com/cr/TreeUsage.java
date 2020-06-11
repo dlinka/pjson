@@ -18,25 +18,20 @@ public class TreeUsage {
 
     private static void read(String json) throws IOException {
         JsonNode jsonNode = mapper.readTree(json);
-        String name = jsonNode.path("name").asText();
-        System.out.println(name);
-        int age = jsonNode.path("age").asInt();
-        System.out.println(age);
+        System.out.println(jsonNode.path("name").asText());
+        System.out.println(jsonNode.path("age").asInt());
 
         JsonNode parents = jsonNode.path("parents");
         if (!parents.isMissingNode()) {
             JsonNode mom = parents.path("mom");
-            String momName = mom.path("name").asText();
-            System.out.println(momName);
+            System.out.println(mom.path("name").asText());
         }
 
         JsonNode friends = jsonNode.path("friends");
         if (friends.isArray()) {
             for (JsonNode friend : friends) {
-                String friendName = friend.path("name").asText();
-                System.out.println(friendName);
-                int friendAge = friend.path("age").asInt();
-                System.out.println(friendAge);
+                System.out.println(friend.path("name").asText());
+                System.out.println(friend.path("age").asInt());
             }
         }
     }
